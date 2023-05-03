@@ -21,7 +21,7 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
     private double bill;
     private int tipP;
     private int people;
-
+//errors
     public TipCalc() {
         createUIComponents();
         bill = Double.parseDouble(textAreaB.getText());
@@ -50,6 +50,8 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
    @Override
    public void actionPerformed(ActionEvent e){
        Object source = e.getSource();
+       textAreaT.setText(tipP + "%");
+       textAreaP.setText(people + " ");
        if(source instanceof JButton){
            JButton button = (JButton) source;
            String text = button.getText();
@@ -75,21 +77,19 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
            }
        }
        bill = Double.parseDouble(textAreaB.getText());
-      // TipAmount.setText("" + calc.calculateTip());
-       //totalBill.setText("" + calc.totalBill());
+       calc = new TipCalculator(bill, tipP, people);
+       TipAmount.setText("" + calc.calculateTip());
+       totalBill.setText("" + calc.totalBill());
    }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-    }
+    public void keyReleased(KeyEvent e) {}
 
 
 }
