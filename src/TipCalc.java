@@ -9,7 +9,6 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
     private JButton subPeople;
     private JButton addPeople;
     private JButton subTip;
-    private JTextField textField3;
     private JTextArea TipAmount;
     private JTextArea totalBill;
     private JLabel tip;
@@ -17,6 +16,7 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
     private JButton addTip;
     private JTextArea textAreaP;
     private JTextArea textAreaT;
+    private JTextArea textAreaB;
     private TipCalculator calc;
     private double bill;
     private int tipP;
@@ -24,10 +24,10 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
 
     public TipCalc() {
         createUIComponents();
-        bill = Double.parseDouble(textField3.getText());
+        bill = Double.parseDouble(textAreaB.getText());
         tipP = Integer.parseInt(textAreaT.getText());
         people = Integer.parseInt(textAreaP.getText());
-        calc = null;
+        calc = new TipCalculator(bill, tipP, people);
     }
 
     public void createUIComponents() {
@@ -39,8 +39,9 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
         addPeople.addActionListener(this);
         addTip.addActionListener(this);
         subTip.addActionListener(this);
-        textAreaP.addKeyListener(this);
+        /*textAreaP.addKeyListener(this);
         textAreaT.addKeyListener(this);
+        textAreaB.addKeyListener(this);*/
         setVisible(true);
 
 
@@ -52,25 +53,30 @@ public class TipCalc extends JFrame implements ActionListener, KeyListener {
        if(source instanceof JButton){
            JButton button = (JButton) source;
            String text = button.getText();
-           if(text.equals("-") && tipP!= 0){
+           if(text.equals("sub") && tipP!= 0){
                tipP--;
+               textAreaT.setText("" + tipP);
+               calc.setTipPercentage(tipP);
+           }
+           if(text.equals("add")){
+               tipP++;
                calc.setTipPercentage(tipP);
                textAreaT.setText("" + tipP);
-           }else if(text.equals("+")){
-               calc.setTipPercentage(tipP++);
-               textAreaT.setText("" + tipP);
-           }else if(text.equals("--") && people != 0){
-               calc.setNumberOfPeople(people--);
+           }
+           if(text.equals("subP") && people != 0){
+               people--;
+               calc.setNumberOfPeople(people);
                textAreaP.setText("" + people);
-           }else if(text.equals("++")){
-               calc.setNumberOfPeople(people++);
+           }
+           if(text.equals("addP")){
+               people++;
+               calc.setNumberOfPeople(people);
                textAreaP.setText("" + people);
            }
        }
-       bill = Double.parseDouble(textField3.getText());
-       calc = new TipCalculator(bill, tipP, people);
-       TipAmount.setText("" + calc.tipPerPerson());
-       totalBill.setText("" + calc.totalBill());
+       bill = Double.parseDouble(textAreaB.getText());
+      // TipAmount.setText("" + calc.calculateTip());
+       //totalBill.setText("" + calc.totalBill());
    }
 
     @Override
